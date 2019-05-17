@@ -52,3 +52,8 @@ gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -g
 ## usage notes:
 
 If no GPX file is specified, the software will look for a GPX named the same as the DZX (for example, if the DZX is named `file.DZX`, the script will look for a file named `file.gpx`).
+
+# future:
+
+- This software is poorly documented and poorly commented. Proper comments and documentation are forthcoming.
+- SIR-3000 support
