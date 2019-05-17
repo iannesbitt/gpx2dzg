@@ -2,7 +2,7 @@
 
 This software takes GPS waypoint information stored in [GPX](https://en.wikipedia.org/wiki/GPS_Exchange_Format) files, tries to align waypoints with user marks in GSSI's proprietary DZX file format, and outputs the results to DZG (an ASCII file containing a mix of [RMC](http://aprs.gids.nl/nmea/#rmc) and/or [GGA](http://aprs.gids.nl/nmea/#gga) NMEA strings and "NMEA-like" GSSI proprietary strings). The purpose of this translation is to artifically create GPS-aware ground-penetrating radar (GPR) projects.
 
-Sadly, at the moment this software only works with GSSI control units that produce DZX files. This means it should work for projects created with the SIR-4000, but not with the SIR-3000. SIR-3000 support is coming soon, but requires slightly more mathematical finesse, since the 3000 stores marks above the time-zero band of the GPR array instead of in a separate file.
+Sadly, at the moment this software only works with GSSI control units that produce DZX files. This means it should work for projects created with the SIR-4000, but not with the SIR-3000. SIR-3000 support is coming soon (see [future](#future)), but requires slightly more mathematical finesse, since the 3000 stores marks above the time-zero band of the GPR array instead of in a separate file.
 
 
 #### Note:
@@ -33,7 +33,7 @@ This software contains the ability to plot GPX and DZX marks next to each other,
 
 This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
 
-![Sanity check plot with differing mark counts](img/Figure_1.png)
+![Sanity check plot with differing mark counts](https://github.com/iannesbitt/gpx2dzg/master/img/Figure_1.png)
 
 To force the sanity check plot, simply add `plot=True`.
 
@@ -41,7 +41,7 @@ To force the sanity check plot, simply add `plot=True`.
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
 ```
 
-![Sanity check plot with identical mark counts](img/Figure_2.png)
+![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/master/img/Figure_2.png)
 
 *This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
 
@@ -65,5 +65,4 @@ If no GPX file is specified, the software will look for a GPX named the same as 
 
 # future:
 
-- This software is poorly documented and poorly commented. Proper comments and documentation are forthcoming.
-- SIR-3000 support
+- SIR-3000 support (please [create an issue](https://github.com/iannesbitt/gpx2dzg/issues/new) if you would like this to happen sooner rather than later)
