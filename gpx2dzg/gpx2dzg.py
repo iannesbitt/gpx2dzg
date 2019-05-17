@@ -44,7 +44,6 @@ def convert(dzx='', gpx='', plot=False):
         fx.printmsg('if a DZG already exists, another will be written with "-gpx2dzg" in the name.')
         dzg = os.path.splitext(dzx)[0] + '.DZG'
         if os.path.exists(dzg):
-            fx.printmsg('a DZG already exists. saving with "-gpx2dzg" in the name.')
             dzg = os.path.splitext(dzx)[0] + '-gpx2dzg.DZG'
         fx.printmsg('output file: %s' % dzg)
         io.write(dzg=dzg, dzxmarks=dzxmarks, gpxmarks=gpxmarks)

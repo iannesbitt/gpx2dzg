@@ -13,7 +13,17 @@ GPX and DZX files **MUST** contain the same number of marks for this process to 
 
 # installation
 
-Installation should be simple. If you've installed python packages before you may not need this. If you're uncomfortable installing python packages, read on. All requirements are on the Python Package Interface (PyPI), which means that you do not need to install anything else in order for this to work. Simply download this repository using the "Clone or download" button above. Unzip the package to your Downloads folder, then execute the following command in an Anaconda Prompt or `bash` terminal to install:
+### simple install
+
+If you've installed python packages before you may not need this. If you're uncomfortable installing python packages, read on. All requirements are on the Python Package Interface (PyPI), which means that you do not need to manually anything else in order for this to work (requirements should theoretically install automatically). Execute the following command in an Anaconda Prompt or `bash` terminal to install:
+
+```bash
+pip install gpx2dzg
+```
+
+### installing development versions
+
+If you wish to install the very latest commit from github (which may be more up-to-date than the version on PyPI but also may have more bugs), simply download this repository using the "Clone or download" button above. Unzip the package to your Downloads folder, then execute the following command in an Anaconda Prompt or `bash` terminal:
 
 ```bash
 pip install ~/Downloads/gpx2dzg
