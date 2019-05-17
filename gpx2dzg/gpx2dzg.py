@@ -48,6 +48,7 @@ def convert(dzx='', gpx='', plot=False):
             dzg = os.path.splitext(dzx)[0] + '-gpx2dzg.DZG'
         fx.printmsg('output file: %s' % dzg)
         io.write(dzg=dzg, dzxmarks=dzxmarks, gpxmarks=gpxmarks)
+        success = True
     else:
         fx.printmsg('mark counts do not match. foregoing output and generating sanity check plot.')
         plot = True
@@ -56,7 +57,7 @@ def convert(dzx='', gpx='', plot=False):
     if plot:
         px.sanityplot(dzx=dzxmarks, dzxname=dzx, gpx=gpxmarks, gpxname=gpx)
 
-    return sucess
+    return success
 
 def main():
     """The argument parsing function for command line calls. Takes no parameters, but reads command line flags and arguments.

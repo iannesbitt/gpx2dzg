@@ -39,7 +39,7 @@ def readdzx(dzx=''):
         assert len(dzxmarks) > 1
         fx.printmsg('INFO: DZX type is standard ("TargetGroup")')
     except AssertionError as e:
-        fx.printmsg('WARNING: DZX type is not "TargetGroup". Assertion Error message: %s' e)
+        fx.printmsg('WARNING: DZX type is not "TargetGroup". Assertion Error message: %s' % e)
         fx.printmsg('         Now testing whether this is the atypical DZX type "File".')
         try:
             # the 'File' type
