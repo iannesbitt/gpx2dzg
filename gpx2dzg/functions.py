@@ -79,12 +79,12 @@ def dd2dms(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com
 
     Credit to StackOverflow user Erik L (https://stackoverflow.com/a/10286690/4648080) for this function.
     """
-   is_positive = dd >= 0
-   dd = abs(dd)
-   minutes,seconds = divmod(dd*3600,60)
-   degrees,minutes = divmod(minutes,60)
-   degrees = degrees if is_positive else -degrees
-   return (degrees,minutes,str(seconds).replace('.',''))
+    is_positive = dd >= 0
+    dd = abs(dd)
+    minutes,seconds = divmod(dd*3600,60)
+    degrees,minutes = divmod(minutes,60)
+    degrees = degrees if is_positive else -degrees
+    return (degrees,minutes,str(seconds).replace('.',''))
 
 
 def course(pointA, pointB): # credit to github user jeromer (https://gist.github.com/jeromer/2005586)
@@ -128,6 +128,73 @@ def course(pointA, pointB): # credit to github user jeromer (https://gist.github
     return compass_bearing
 
 
+def mean(n):
+    '''Calculates arithmetic mean for a list of numbers.
+
+    Parameters
+    ----------
+    n : list
+        List of numbers for which to calculate mean.
+
+    Returns
+    -------
+
+    float
+        Value of arithmetic mean.
+    '''
+    return float(sum(n)) / max(len(n), 1)
+
+
+def distance_speed_time(gpx=None):
+    """Converts list of GPX waypoints to lists of distances and speeds (in meters and meters per second) from the origin (0).
+
+    Parameters
+    ----------
+    gpx : gpxpy.GPX
+        The list of GPX waypoints to process.
+
+    Returns
+    -------
+    list
+        A list of distances (in meters) from the origin for plotting.
+
+    """
+    i = 0
+    dist = [0]
+    spd = []
+    times = [0]
+    for pt in gpx.waypoints:
+        lat = pt.latitude
+        lon = pt.longitude
+        time = pt.time
+        if i > 0:
+            dist.append(geodesic((lat, lon), (lat0, lon0)).meters + dist[-1])
+            spd.append(geodesic((lat, lon), (lat0, lon0)).meters / (time - time0).seconds)
+            times.append((time - time0).seconds + times[-1])
+        lat0 = lat
+        lon0 = lon
+        time0 = time
+        i += 1
+    return dist, spd, times
+
+
+def ms2kt(speed=0.):
+    '''
+    Converts speed in meters per second to knots.
+
+    Parameters
+    ----------
+    speed : float
+        Speed in meters per second to be converted.
+
+    Returns
+    -------
+    float
+        Speed in knots (1 kt = 0.514444444 m/s).
+    '''
+    return speed/0.514444444
+
+
 def sog(lat0=0, lon0=0, time0=datetime.now(), lat1=0, lon1=0, time1=datetime.now()):
     """
     Converts a pair of latitude, longitude, and time points to speed over ground in knots.
@@ -153,6 +220,7 @@ def sog(lat0=0, lon0=0, time0=datetime.now(), lat1=0, lon1=0, time1=datetime.now
         Returns speed over ground in knots.
     """
 
+    # sog is m/s. need to convert to kts.
     sog = geodesic((lat1, lon1), (lat0, lon0)).meters / (time1 - time0).seconds
 
-    return sog/0.514444444
+    return ms2kt(speed=sog)
