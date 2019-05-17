@@ -6,7 +6,7 @@ Sadly, at the moment this software only works with GSSI control units that produ
 
 
 #### Note:
-GPX and DZX files **MUST** contain the same number of marks for this process to work. If they do not, the script will bring up a plot showing GPX marks plotted by distance, and DZX marks plotted by scan number for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
+GPX and DZX files **MUST** contain the same number of marks for this process to work. If they do not, the script will bring up a plot showing GPX marks plotted by distance, DZX marks plotted by scan number, and velocity between GPX points for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
 
 # installation
 
@@ -29,6 +29,8 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 #### sanity check plotting
 
+This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground in order to visually check which points may have been missed or created erroneously in the field.
+
 This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
 
 ![Sanity check plot with differing mark counts](img/Figure_1.png)
@@ -39,7 +41,7 @@ To force the sanity check plot, simply add `plot=True`.
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
 ```
 
-![Sanity check plot](img/Figure_2.png)
+![Sanity check plot with identical mark counts](img/Figure_2.png)
 
 *This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
 
