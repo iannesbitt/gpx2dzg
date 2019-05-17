@@ -29,7 +29,7 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 #### sanity check plotting
 
-This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground in order to visually check which points may have been missed or created erroneously in the field.
+This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground, in order to visually check which points may have been missed or created erroneously in the field.
 
 This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
 
