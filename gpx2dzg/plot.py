@@ -4,6 +4,16 @@ from geopy.distance import geodesic
 
 
 def setup(ax, xmax=5):
+    """Gets the axis ready for number line style plotting.
+
+    Parameters
+    ----------
+    ax : matplotlib axis instance
+        The plot axis to operate on.
+    xmax : int or float
+        The maximum x value to plot on the number line.
+    """
+
     ax.spines['right'].set_color('none')
     ax.spines['left'].set_color('none')
     ax.yaxis.set_major_locator(ticker.NullLocator())
@@ -18,6 +28,19 @@ def setup(ax, xmax=5):
     ax.patch.set_alpha(0.0)
 
 def distance(gpx=None):
+    """Converts list of GPX waypoints to a list of distances (in meters) from the origin (0).
+
+    Parameters
+    ----------
+    gpx : gpxpy.GPX
+        The list of GPX waypoints to process.
+
+    Returns
+    -------
+    list
+        A list of distances (in meters) from the origin for plotting.
+
+    """
     i = 0
     dist = [0]
     for pt in gpx.waypoints:
@@ -31,6 +54,24 @@ def distance(gpx=None):
     return dist
 
 def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
+    """Creates two number line plots for comparison of mark location and scan number.
+
+    Parameters
+    ----------
+    gpx : gpxpy.GPX
+        The list of GPX waypoints to plot.
+    gpxname : str
+        The name of the GPX file being read. This will be used as axis label text.
+    dzx : list
+        The list of DZX marks to plot. Each item in the list is a scan number at which a mark was recorded.
+    gpxname : str
+        The name of the DZX file being read. This will be used as axis label text.
+
+    Returns
+    -------
+    plot instance
+        Creates a matplotlib figure with two axes showing number lines with mark locaitons plotted on each.
+    """
     n = 1
     name = [gpxname, dzxname]
     label = ['distance (m)', 'scan number']

@@ -7,6 +7,18 @@ from geopy.distance import geodesic
 import gpx2dzg.functions as fx
 
 def readdzx(dzx=''):
+    """Attempts to read a DZX file from one of two known formats.
+
+    Parameters
+    ----------
+    dzx : str
+        The filename and location of the DZX to read.
+
+    Returns
+    -------
+    list
+        Returns a list of scan numbers recorded in the DZX.
+    """
     dzxmarks = [0,]
 
     ## unclear why there are (possibly multiple) different formats of DZX.
@@ -27,8 +39,10 @@ def readdzx(dzx=''):
         assert len(dzxmarks) > 1
         fx.printmsg('INFO: DZX type is standard ("TargetGroup")')
     except AssertionError as e:
+        fx.printmsg('WARNING: DZX type is not "TargetGroup". Assertion Error message: %s' e)
+        fx.printmsg('         Now testing whether this is the atypical DZX type "File".')
         try:
-            # the standard type: 'File'
+            # the 'File' type
             dzxmarks = []
             for item in root.findall('./{www.geophysical.com/DZX/1.02}File'):
                 for child in item:
@@ -44,13 +58,25 @@ def readdzx(dzx=''):
             fx.printmsg('                    traces: %s' % dzxmarks[-1])
         except AssertionError as e:
             fx.printmsg('ERROR: could not read DZX information because the data type is not one we recognize. keep calm and read below.')
-            fx.dzxerror(e)
+            fx.dzxerror(e=e)
             sys.exit(2)
 
     return dzxmarks
 
 
 def readgpx(gpx=''):
+    """Attempts to read a GPX file using `gpxpy`.
+
+    Parameters
+    ----------
+    gpx : str
+        The filename and location of the GPX to read.
+
+    Returns
+    -------
+    gpxpy.GPX
+        Returns a `gpxpy.GPX` instance, which contains waypoint information in the GPX.
+    """
     g = []
     try:
         with open(gpx, 'r') as f:
@@ -59,10 +85,21 @@ def readgpx(gpx=''):
         fx.printmsg('GPX read successful. marks: %s' % len(g.waypoints))
     except AssertionError as e:
         fx.printmsg('ERROR: no waypoints in file. please check GPX contents.')
-        fx.gpxerror(e)
+        fx.gpxerror(e=e)
     return g
 
 def write(dzg='', dzxmarks=None, gpxmarks=None):
+    """Attempts to write a DZG file with the minimum required string format for GPS-aware processing.
+
+    Parameters
+    ----------
+    dzg : str
+        The filename and location of the DZG file to write.
+    dzxmarks : list
+        A list containing scan numbers of each mark.
+    gpxmarks : gpxpy.GPX
+        A `gpxpy.GPX` instance containing waypoint information of each mark.
+    """
     g = gpxmarks.waypoints
     try:
         with open(dzg, 'w') as f:
@@ -83,11 +120,11 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                 else:
                     lond = 'W'
                 if m == 0:
-                    kt = '%05.1f' % fx.sog(lon=g[m+1].longitude, lat=g[m+1].latitude, time=g[m+1].time,
+                    kt = '%05.1f' % fx.sog(lon1=g[m+1].longitude, lat1=g[m+1].latitude, time1=g[m+1].time,
                                            lon0=g[m].longitude, lat0=g[m].latitude, time0=g[m].time)
                     crs = '%05.1f' % 0.
                 else:
-                    kt = '%05.1f' % fx.sog(lon=g[m].longitude, lat=g[m].latitude, time=g[m].time,
+                    kt = '%05.1f' % fx.sog(lon1=g[m].longitude, lat1=g[m].latitude, time1=g[m].time,
                                            lon0=lon0, lat0=lat0, time0=time0)
                     crs = '%05.1f' % fx.course((lat0, lon0),(g[m].latitude, g[m].longitude))
                 lat0, lon0, time0 = g[m].latitude, g[m].longitude, g[m].time
@@ -105,5 +142,5 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                 m += 1
 
     except PermissionError as e:
-        fx.writeerror(e)
+        fx.writeerror(e=e)
         sys.exit(2)

@@ -6,6 +6,22 @@ import gpx2dzg.io as io
 import gpx2dzg.plot as px
 
 def convert(dzx='', gpx='', plot=False):
+    """The main conversion function in `gpx2dzg`.
+
+    Parameters
+    ----------
+    dzx : str
+        The path of the DZX file to read. This path is where the DZG will be created if successful.
+    gpx : str
+        The path of the GPX file to read.
+    plot : bool
+        Tells `gpx2dzg` whether to force the creation of a sanity check plot.
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise.
+    """
     if os.path.exists(dzx) == False:
         fx.printmsg('ERROR: specified dzx file does not exist. exiting.')
         sys.exit(2)
@@ -35,12 +51,18 @@ def convert(dzx='', gpx='', plot=False):
     else:
         fx.printmsg('mark counts do not match. foregoing output and generating sanity check plot.')
         plot = True
+        success = False
 
     if plot:
         px.sanityplot(dzx=dzxmarks, dzxname=dzx, gpx=gpxmarks, gpxname=gpx)
 
+    return sucess
 
 def main():
+    """The argument parsing function for command line calls. Takes no parameters, but reads command line flags and arguments.
+
+    Passes arguments to the `convert()` function.
+    """
     dzx, gpx = None, None
     plot = False
 
@@ -81,4 +103,6 @@ def main():
 
 
 if __name__ == '__main__':
+    """This directs command line calls to the argument parsing function `main()`.
+    """
     main()

@@ -4,12 +4,26 @@ import math
 
 
 def printmsg(msg):
-    '''Prints with date/timestamp.'''
+    """Prints messages to the terminal with date and timestamp.
+
+    Parameters
+    ----------
+    msg : str
+        The message to write out.
+    """
     print('%s - %s' % (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 
-def genericerror(type='file'):
-    printmsg('please attach this %s to a new github issue (https://github.com/iannesbitt/gpx2dzg/issues/new)')
+def genericerror(filetype='file'):
+    """Prints a standard message for a generic error using the `gpx2dzg.functions.printmsg()` function.
+    This is called from functions in `gpx2dzg.io`.
+
+    Parameters
+    ----------
+    filetype : str
+        The type of file this message is about. Used to format error string.
+    """
+    printmsg('please attach this %s to a new github issue (https://github.com/iannesbitt/gpx2dzg/issues/new)' % filetype)
     printmsg('        or send it to ian.nesbitt@gmail.com in order to have the format assessed. please also')
     printmsg('        include the output of the program (i.e. copy and paste this text and the text above in')
     printmsg('        the message) as this will drastically speed up my ability to help you! thanks!')
@@ -18,21 +32,53 @@ def genericerror(type='file'):
 
 
 def gpxerror(e=''):
+    """Prints an error message then calls `gpx2dzg.functions.genericerror()` and passes `filetype='GPX'`.
+
+    Parameters
+    ----------
+    e : str
+        The error message to print.
+    """
     printmsg('ERROR TEXT: %s' % e)
     genericerror('GPX')
 
 
 def dzxerror(e=''):
+    """Prints an error message then calls `gpx2dzg.functions.genericerror()` and passes `filetype='DZX'`.
+
+    Parameters
+    ----------
+    e : str
+        The error message to print.
+    """
     printmsg('ERROR TEXT: %s' % e)
     genericerror('DZX')
 
 
 def writeerror(e=''):
+    """Prints an error message then calls `gpx2dzg.functions.genericerror()` and passes `filetype='GPX'`.
+
+    Parameters
+    ----------
+    e : str
+        The error message to print.
+    """
     printmsg('ERROR: could not write the file because you do not have write permission in this directory.')
     printmsg('ERROR TEXT: %s' % e)
 
 
 def dd2dms(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com/a/10286690/4648080)
+    """
+    Converts decimal degrees to a tuple containing degrees, minutes, and seconds (DMS). For the purpose of
+    this software, the decimal in seconds is removed in order to create a NMEA-friendly string.
+
+    Parameters
+    ----------
+    dd : float
+        The decimal degree value to convert to DMS.
+
+    Credit to StackOverflow user Erik L (https://stackoverflow.com/a/10286690/4648080) for this function.
+    """
    is_positive = dd >= 0
    dd = abs(dd)
    minutes,seconds = divmod(dd*3600,60)
@@ -56,6 +102,8 @@ def course(pointA, pointB): # credit to github user jeromer (https://gist.github
       The bearing in degrees
     :Returns Type:
       float
+
+    Credit to GitHub user jeromer (https://gist.github.com/jeromer/2005586) for this function.
     """
     if (type(pointA) != tuple) or (type(pointB) != tuple):
         raise TypeError("Only tuples are supported as arguments")
@@ -80,12 +128,31 @@ def course(pointA, pointB): # credit to github user jeromer (https://gist.github
     return compass_bearing
 
 
-def sog(lat0=0, lon0=0, time0=datetime.now(), lat=0, lon=0, time=datetime.now()):
-    '''
-    takes lat/lon at time=0 and time=1, plus time0 and time1
-    returns speed over ground in knots
-    '''
+def sog(lat0=0, lon0=0, time0=datetime.now(), lat1=0, lon1=0, time1=datetime.now()):
+    """
+    Converts a pair of latitude, longitude, and time points to speed over ground in knots.
 
-    sog = geodesic((lat, lon), (lat0, lon0)).meters / (time - time0).seconds
+    Parameters
+    ----------
+    lat0 : float
+        The latitude at `time0`.
+    lon0 : float
+        The longitude at `time0`.
+    lat1 : float
+        The latitude at `time1`.
+    lat1 : float
+        The longitude at `time0`.
+    time0 : datetime
+        The initial time, when time=0.
+    time1 : datetime
+        The pursuant time, when time=1.
+
+    Returns
+    -------
+    float
+        Returns speed over ground in knots.
+    """
+
+    sog = geodesic((lat1, lon1), (lat0, lon0)).meters / (time1 - time0).seconds
 
     return sog/0.514444444
