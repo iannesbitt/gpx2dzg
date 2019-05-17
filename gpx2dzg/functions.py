@@ -1,4 +1,5 @@
 from datetime import datetime
+from geopy.distance import geodesic
 import math
 
 
@@ -39,6 +40,7 @@ def dd2dms(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com
    degrees = degrees if is_positive else -degrees
    return (degrees,minutes,str(seconds).replace('.',''))
 
+
 def course(pointA, pointB): # credit to github user jeromer (https://gist.github.com/jeromer/2005586)
     """
     Calculates the bearing between two points.
@@ -76,3 +78,14 @@ def course(pointA, pointB): # credit to github user jeromer (https://gist.github
     compass_bearing = (initial_bearing + 360) % 360
 
     return compass_bearing
+
+
+def sog(lat0=0, lon0=0, time0=datetime.now(), lat=0, lon=0, time=datetime.now()):
+    '''
+    takes lat/lon at time=0 and time=1, plus time0 and time1
+    returns speed over ground in knots
+    '''
+
+    sog = geodesic((lat, lon), (lat0, lon0)).meters / (time - time0).seconds
+
+    return sog/0.514444444

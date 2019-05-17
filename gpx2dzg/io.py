@@ -82,12 +82,15 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                     lond = 'E'
                 else:
                     lond = 'W'
-                kt = '%05.1f' % 0.
                 if m == 0:
+                    kt = '%05.1f' % fx.sog(lon=g[m+1].longitude, lat=g[m+1].latitude, time=g[m+1].time,
+                                           lon0=g[m].longitude, lat0=g[m].latitude, time0=g[m].time)
                     crs = '%05.1f' % 0.
                 else:
+                    kt = '%05.1f' % fx.sog(lon=g[m].longitude, lat=g[m].latitude, time=g[m].time,
+                                           lon0=lon0, lat0=lat0, time0=time0)
                     crs = '%05.1f' % fx.course((lat0, lon0),(g[m].latitude, g[m].longitude))
-                lat0, lon0 = g[m].latitude, g[m].longitude
+                lat0, lon0, time0 = g[m].latitude, g[m].longitude, g[m].time
                 d = '%s%02d%02d' % (str(g[m].time.year)[2:], g[m].time.month, g[m].time.day)
                 v = geomag.declination(g[m].latitude, g[m].longitude)
                 var = '%05.1f' % abs(v)
