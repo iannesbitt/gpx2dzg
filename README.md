@@ -10,7 +10,7 @@ GPX and DZX files **MUST** contain the same number of marks for this process to 
 
 # installation
 
-Installation should be simple. If you've installed python packages before you may not need this. If you're uncomfortable installing python packages, read on. All requirements are on the Python Package Interface (PyPI), which means that you do not need to install anything else in order for this to work. Simply download this repository using the "Clone or download" button above. Unzip the package to your Downloads folder, then execute the following command to install:
+Installation should be simple. If you've installed python packages before you may not need this. If you're uncomfortable installing python packages, read on. All requirements are on the Python Package Interface (PyPI), which means that you do not need to install anything else in order for this to work. Simply download this repository using the "Clone or download" button above. Unzip the package to your Downloads folder, then execute the following command in an Anaconda Prompt or `bash` terminal to install:
 
 ```bash
 pip install ~/Downloads/gpx2dzg
@@ -43,7 +43,7 @@ To force the sanity check plot, simply add `plot=True`.
 
 *This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
 
-## on a `bash` command line
+## on a `bash` or Anaconda Prompt command line
 
 ```bash
 gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx
