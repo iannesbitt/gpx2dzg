@@ -51,7 +51,7 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
     """
     n = 1
     name = [gpxname, dzxname]
-    label = ['distance (m)', 'scan number', 'speed over ground (m/s)']
+    label = ['distance (m)', 'scan number', 'time (sec)']
     title = ['Sanity check plot: GPX and DZT marks', '']
     dist, spd, tm = fx.distance_speed_time(gpx)
     fig = plt.figure(figsize=(10, 3.75))
@@ -81,7 +81,7 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
     plt.xlabel(label[n-1])
     ax.xaxis.set_major_locator(ticker.LinearLocator(3))
     ax.xaxis.set_minor_locator(ticker.LinearLocator(31))
-    ax.text(0.0, 1.1, "Speed between gpx marks",
+    ax.text(0.0, 1.1, "Speed between gpx marks (m/s)",
             fontsize=10, transform=ax.transAxes)
     n = 0
     ux = []
