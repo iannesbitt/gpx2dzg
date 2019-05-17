@@ -8,6 +8,16 @@ Sadly, at the moment this software only works with GSSI control units that produ
 #### Note:
 GPX and DZX files **MUST** contain the same number of marks for this process to work. If they do not, the script will bring up a plot showing GPX marks plotted by distance, and DZX marks plotted by scan number for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
 
+# installation
+
+Installation should be simple. If you've installed python packages before you may not need this. If you're uncomfortable installing python packages, read on. All requirements are on the Python Package Interface (PyPI), which means that you do not need to install anything else in order for this to work. Simply download this repository using the "Clone or download" button above. Unzip the package to your Downloads folder, then execute the following command to install:
+
+```bash
+pip install ~/Downloads/gpx2dzg
+```
+
+If that doesn't work, you may need to unzip differently. Try making a folder called `gpx2dzg` in your Downloads folder, then unzip all of the contents of this package to it, so that `setup.py` is located at `~/Downloads/gpx2dzg/setup.py`. 
+
 # usage
 
 ## in python
