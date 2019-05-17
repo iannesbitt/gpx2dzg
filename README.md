@@ -6,4 +6,8 @@ Sadly, at the moment this software only works with GSSI control units that produ
 
 
 #### Note:
-GPX and DZX files **MUST** contain the same number of marks for this process to work. If they do not, the script will throw an error. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
+GPX and DZX files **MUST** contain the same number of marks for this process to work. If they do not, the script will bring up a plot showing GPX marks plotted by distance, and DZX marks plotted by scan number for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
+
+# usage
+
+Coming soon
