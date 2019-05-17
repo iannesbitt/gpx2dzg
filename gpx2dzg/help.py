@@ -1,4 +1,5 @@
-from readgssi.__init__ import __version__, name
+from datetime import datetime
+from gpx2dzg.__init__ import __version__, name
 
 year = datetime.now().year
 author = 'Ian Nesbitt'
@@ -6,14 +7,14 @@ affil = 'School of Earth and Climate Sciences, University of Maine'
 
 help_text = u'''Help text:
 ############################################################
- gpx2dzt version %s
+ gpx2dzg version %s
 
  Copyleft (GPLv3) %s %s 2017-%s
  %s
 ############################################################
 
 usage:
-readgssi -d input.DZX -g input.gpx [OPTIONS]
+gpx2dzg -d input.DZX -g input.gpx [OPTIONS]
 
 required flags:
       FLAG      |      ARGUMENT       |       FUNCTIONALITY
