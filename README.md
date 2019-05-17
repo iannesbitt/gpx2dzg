@@ -29,11 +29,19 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 #### sanity check plotting
 
-This will happen automatically if GPX and DZX mark numbers are not equal. To force the sanity check plot, simply add `plot=True`.
+This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
+
+![Sanity check plot with differing mark counts](img/Figure_1.png)
+
+To force the sanity check plot, simply add `plot=True`.
 
 ```python
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
 ```
+
+![Sanity check plot](img/Figure_2.png)
+
+*This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
 
 ## on a `bash` command line
 
