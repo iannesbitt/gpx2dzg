@@ -10,4 +10,35 @@ GPX and DZX files **MUST** contain the same number of marks for this process to 
 
 # usage
 
-Coming soon
+## in python
+
+```python
+>>> import gpx2dzg.gpx2dzg as g2d
+>>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx')
+```
+
+#### sanity check plotting
+
+This will happen automatically if GPX and DZX mark numbers are not equal. To force the sanity check plot, simply add `plot=True`.
+
+```python
+>>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
+```
+
+## on a `bash` command line
+
+```bash
+gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx
+```
+
+#### sanity check plotting
+
+Simply add the `-g` flag.
+
+```bash
+gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -g
+```
+
+## usage notes:
+
+If no GPX file is specified, the software will look for a GPX named the same as the DZX (for example, if the DZX is named `file.DZX`, the script will look for a file named `file.gpx`).
