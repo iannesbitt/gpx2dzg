@@ -8,8 +8,8 @@ This software takes GPS waypoint information stored in [GPX](https://en.wikipedi
 Sadly, at the moment this software only works with GSSI control units that produce DZX files. This means it should work for projects created with the SIR-4000, but not with the SIR-3000. SIR-3000 support is coming soon (see [future](#future)), but requires slightly more mathematical finesse, since the 3000 stores marks above the time-zero band of the GPR array instead of in a separate file.
 
 
-#### Note:
-GPX and DZX or DZT files **MUST** contain the same number of marks for this process to work. If they do not, the script will bring up a plot showing GPX marks plotted by distance, DZX/DZT marks plotted by scan number, and velocity between GPX points for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. If you're reading a DZT file from a SIR-3000 survey, you can remove marks 4, 5, and the mark second from the end in the mark list, by specifying `drops=[3,4,-2]` if you're using the python console, or `-r 3,4,-2` if you're using the command line. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark.
+### Note:
+GPX and DZX or DZT files **MUST** contain the same number of marks for this process to work. That's because each GPS point has to be matched up with a scan number in order to tie the GPS points to marks made in the DZX or DZT by the control unit. If they do not, the script will bring up a plot showing GPX marks plotted by distance, DZX/DZT marks plotted by scan number, and velocity between GPX points for comparison. You can modify either GPX or DZX using a standard text editor, and add or remove marks based on your survey notes. If you're reading a DZT file from a SIR-3000 survey, you can remove marks 4, 5, and the mark second from the end in the mark list, by specifying `drops=[3,4,-2]` if you're using the python console, or `-r 3,4,-2` if you're using the command line. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark.
 
 I urge you to take copious notes in the field so that you know if there will be errant marks you need to remove later. I will do what I can to help, but ultimately I am not responsible for missed GPS or GPR marks in your radar surveys (sorry!)
 
@@ -42,7 +42,7 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', write=True)
 ```
 
-#### sanity check plotting
+### sanity check plotting
 
 This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground, in order to visually check which points may have been missed or created erroneously in the field.
 
@@ -56,7 +56,11 @@ To force the sanity check plot, simply add `plot=True`.
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
 ```
 
-#### DZX/DZT point removal
+![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_2.png)
+
+*This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
+
+### DZX/DZT point removal
 
 You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up.
 
@@ -66,17 +70,13 @@ Notice in this example that the value of `dzx=` can point to either a SIR-3000 `
 >>> g2d.convert(dzx='/path/to/dzt.DZT', gpx='/path/to/gpx.gpx', plot=True, drops=[4,5,-2])
 ```
 
-![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_2.png)
-
-*This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
-
 ## on a `bash` or Anaconda Prompt command line
 
 ```bash
 gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx
 ```
 
-#### sanity check plotting
+### sanity check plotting
 
 Simply add the `-p` flag.
 
@@ -84,7 +84,7 @@ Simply add the `-p` flag.
 gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -p
 ```
 
-#### DZX/DZT point removal
+### DZX/DZT point removal
 
 You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Notice in this example that the value of `-d` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
 
@@ -92,7 +92,7 @@ You can remove mark points from the list of DZX or DZT marks by adding the `-r` 
 gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2`.
 ```
 
-#### write results to a `.DZG` file
+### write results to a `.DZG` file
 
 Simply add the `-w` flag. The program will not overwrite if there's a DZG already named the same as the DZT or DZX, instead it will name it something like `dzt-gpx2dzg.DZG
 
