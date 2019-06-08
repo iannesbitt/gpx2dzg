@@ -224,3 +224,41 @@ def sog(lat0=0, lon0=0, time0=datetime.now(), lat1=0, lon1=0, time1=datetime.now
     sog = geodesic((lat1, lon1), (lat0, lon0)).meters / (time1 - time0).seconds
 
     return ms2kt(speed=sog)
+
+def drop(marks=[], drops=[]):
+    """
+    Takes a list of positional index values to drop from a DZT/DZX mark list. Returns the list without the dropped values.
+    The list can include negative integer positional values, which are converted to positive positional values.
+    List drops are done in descending order (high to low).
+
+    Parameters
+    ----------
+    marks : list
+        The list of mark values to drop from.
+    drops : list
+        The list of indices to drop.
+
+    Returns
+    -------
+    list
+        A list of mark values sans the ones dropped.
+    """
+    i = 0
+    for index in drops:
+        if (index < 0) and (len(marks) > abs(index)):
+            drops[i] = len(marks) - abs(index)
+        i += 1
+
+    drops.sort(reverse=True)
+
+    dropped = [] # keeping track of drops
+    for index in drops:
+        del marks[index]
+        dropped.append(index)
+
+    if len(dropped) > 0:
+        printmsg('dropped indices %s from DZT/DZX marks' % dropped)
+    else:
+        printmsg('no DZT/DZX marks were dropped.')
+
+    return marks

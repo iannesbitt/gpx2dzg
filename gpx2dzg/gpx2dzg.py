@@ -5,7 +5,7 @@ import gpx2dzg.help as help
 import gpx2dzg.io as io
 import gpx2dzg.plot as px
 
-def convert(dzx='', gpx='', write=False, plot=False):
+def convert(dzx='', gpx='', write=False, plot=False, drops=[]):
     """The main conversion function in `gpx2dzg`.
 
     Parameters
@@ -18,6 +18,8 @@ def convert(dzx='', gpx='', write=False, plot=False):
         Tells `gpx2dzg` whether to write a DZG file (but only if mark counts match between GPX and DZX/DZT).
     plot : bool
         Tells `gpx2dzg` whether to force the creation of a sanity check plot.
+    drops : list
+        List of integers. Tells `gpx2dzg` to drop mark values at this list of DZX/DZT integer index locations.
 
     Returns
     -------
@@ -44,6 +46,9 @@ def convert(dzx='', gpx='', write=False, plot=False):
 
     gpxmarks = io.readgpx(gpx=gpx)
     fx.printmsg('found %s gpx marks' % len(gpxmarks.waypoints))
+
+    if len(drops) > 0:
+        fx.drop(marks=dzxmarks, drops=drops)
 
     if len(gpxmarks.waypoints) == len(dzxmarks):
         fx.printmsg('mark counts match!')
@@ -75,10 +80,11 @@ def main():
     """
     dzx, gpx = None, None
     plot, write = False, False
+    drops = []
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                                   'wpd:g:', ['write', 'plot', 'dzx=', 'gpx='])
+                                   'wpr:d:g:', ['write', 'plot', 'drop=' 'dzx=', 'gpx='])
     except getopt.GetoptError as e:
         fx.printmsg('ERROR: invalid argument(s) supplied')
         fx.printmsg('error text: %s' % e)
@@ -99,16 +105,25 @@ def main():
                 gpx = arg
                 if '~' in gpx:
                     gpx = os.path.expanduser(gpx) # if using --input=~/... tilde needs to be expanded
+        if opt in ('-r', '--drop'):
+            if arg:
+                try:
+                    drops = list(int(i) for i in list(arg.strip('(){}[]').split(',')))
+                except Exception as e:
+                    fx.printmsg('ERROR: list of drops is likely formatted incorrectly. try "-r [1,2,4,-2]"')
+                    fx.printmsg('full error text: %s' % e)
+                    sys.exit(2)
+
         if opt in ('-p', '--plot'): # plot
             plot = True
         if opt in ('-w', '--write'): # write a dzg
             write = True
     if dzx and gpx:
-        convert(dzx=dzx, gpx=gpx, plot=plot, write=write)
+        convert(dzx=dzx, gpx=gpx, plot=plot, write=write, drops=drops)
     elif dzx:
         fx.printmsg('only DZX input specified. gpx2dzg will search for an identically named GPX...')
         gpx = os.path.splitext(dzx)[0] + '.gpx'
-        convert(dzx=dzx, gpx=gpx, plot=plot, write=write)
+        convert(dzx=dzx, gpx=gpx, plot=plot, write=write, drops=drops)
     else:
         fx.printmsg('ERROR: no input files specified')
         sys.exit(2)
