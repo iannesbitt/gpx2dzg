@@ -5,6 +5,7 @@ import pynmea2
 import xml.etree.ElementTree as et
 from geopy.distance import geodesic
 import gpx2dzg.functions as fx
+import readgssi.dzt as readdzt
 
 def readdzx(dzx=''):
     """Attempts to read a DZX file from one of two known formats.
@@ -63,6 +64,44 @@ def readdzx(dzx=''):
 
     return dzxmarks
 
+def readSIR3k(dzt=''):
+    """Attempts to read a DZT file using `readgssi`.
+
+    Parameters
+    ----------
+    dzt : str
+        The filename and location of the DZT to read.
+
+    Returns
+    -------
+    list
+        Returns a list of marked scan numbers recorded in the DZT (from line 1 of the DZT array).
+    """
+    sir3k = False
+    dztmarks = [0,]
+
+    arr = readdzt.readdzt(infile=dzt, verbose=True)
+
+    if arr[0]['rh_system'] == 3:
+        sir3k = True
+        fx.printmsg('found a SIR-3000 DZT file. reading marks now.')
+    else:
+        fx.printmsg('WARNING: the system that made this file does not appear to be a SIR-3000. trying anyway...')
+
+    markrow = arr[1][1]
+    i = 0
+    for scan in markrow:
+        if scan > 20000:
+            dztmarks.append(i)
+        i += 1
+    dztmarks.append(i)
+
+    if len(dztmarks) > 2:
+        fx.printmsg('DZT read successful. marks: %s' % len(dztmarks))
+    else:
+        fx.printmsg('WARNING: no intermediate marks found. returning only start and end scan numbers: (%s, %s)' % (dztmarks[0], dztmarks[1]))
+
+    return dztmarks
 
 def readgpx(gpx=''):
     """Attempts to read a GPX file using `gpxpy`.
@@ -86,6 +125,7 @@ def readgpx(gpx=''):
     except AssertionError as e:
         fx.printmsg('ERROR: no waypoints in file. please check GPX contents.')
         fx.gpxerror(e=e)
+
     return g
 
 def write(dzg='', dzxmarks=None, gpxmarks=None):
