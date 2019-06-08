@@ -97,7 +97,7 @@ gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2
 Simply add the `-w` flag. The program will not overwrite if there's a DZG already named the same as the DZT or DZX, instead it will name it something like `dzt-gpx2dzg.DZG
 
 ```bash
-gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2` -w
+gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2 -w
 ```
 
 ## usage notes:
