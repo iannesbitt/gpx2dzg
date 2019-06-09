@@ -5,7 +5,7 @@
 
 This software takes GPS waypoint information stored in [GPX](https://en.wikipedia.org/wiki/GPS_Exchange_Format) files, tries to align waypoints with user marks in GSSI's proprietary DZX file format, and outputs the results to DZG (an ASCII file containing a mix of [RMC](http://aprs.gids.nl/nmea/#rmc) and/or [GGA](http://aprs.gids.nl/nmea/#gga) NMEA strings and "NMEA-like" GSSI proprietary strings). The purpose of this translation is to artifically create GPS-aware ground-penetrating radar (GPR) projects.
 
-Sadly, at the moment this software only works with GSSI control units that produce DZX files. This means it should work for projects created with the SIR-4000, but not with the SIR-3000. SIR-3000 support is coming soon (see [future](#future)), but requires slightly more mathematical finesse, since the 3000 stores marks above the time-zero band of the GPR array instead of in a separate file.
+At the moment (June 2019) this software has been tested with SIR-3000 and SIR-4000 GSSI control units. The 3000 and 4000 control units record user marks in very different ways: the 3000 records them directly to the second row of the radar array, while the 4000 creates a proprietary XML file called `DZX` and records them as XML objects in that file. This software can handle both. If you used a 3000 during the survey, you can read the marks by pointing the software directly at your DZT file. If you used a 4000, you should point the software at the DZX file associated with the DZT. See [usage](#usage) for an explanation of how to do this in both [Python](#in-python) and [on the command line](#on-a-bash-or-anaconda-prompt-command-line).
 
 
 ### Note:
@@ -53,7 +53,7 @@ This will happen automatically if GPX and DZX mark numbers are not equal. An exa
   1. GPX marks plotted along a numberline depicting **marks plotted by distance in meters along survey line**.
   2. GPX marks plotted along a numberline depicting **marks plotted by seconds elapsed along line**.
   3. DZX or DZT marks plotted along a numberline depicting **marks plotted by scan number**.
-  4. Speed (meters per second) between marks in GPX file, plotted as a function of seconds elapsed.
+  4. **Speed** (meters per second) between marks in GPX file, **plotted as a function of seconds elapsed**.
 
 If you record files by time (i.e. a set number of scans per second), it will be helpful to compare plots 2 and 3. The better the mark points line up in plots 2 and 3, the better off you will be. If you record files by using a survey wheel or other Distance Measurement Instrument (DMI), you should compare plots 1 and 3.
 
