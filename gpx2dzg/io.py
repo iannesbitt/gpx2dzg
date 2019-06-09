@@ -36,15 +36,18 @@ def readdzx(dzx=''):
                 if 'TargetWayPt' in child.tag:
                     for gchild in child:
                         if 'scanSampChanProp' in gchild.tag:
-                            dzxmarks.append(int(gchild.text.split(',')[0]))
+                            if int(gchild.text.split(',')[0]) > 0: # already have a zero point
+                                dzxmarks.append(int(gchild.text.split(',')[0]))
+                            else:
+                                fx.printmsg('INFO: skipped point %s because <= 0' % int(gchild.text.split(',')[0]))
+
         assert len(dzxmarks) > 1
         fx.printmsg('INFO: DZX type is standard ("TargetGroup")')
     except AssertionError as e:
-        fx.printmsg('WARNING: DZX type is not "TargetGroup". Assertion Error message: %s' % e)
-        fx.printmsg('         Now testing whether this is the atypical DZX type "File".')
+        fx.printmsg('INFO: DZX type is not "TargetGroup": no readable DZX marks under this type.')
+        fx.printmsg('      Now testing whether this is the atypical DZX type "File"...')
         try:
             # the 'File' type
-            dzxmarks = []
             for item in root.findall('./{www.geophysical.com/DZX/1.02}File'):
                 for child in item:
                     if 'Profile' in child.tag:
@@ -52,7 +55,10 @@ def readdzx(dzx=''):
                             if 'WayPt' in gchild.tag:
                                 for ggchild in gchild:
                                     if 'scan' in ggchild.tag:
-                                        dzxmarks.append(int(ggchild.text))
+                                        if int(ggchild.text) > 0: # already have a zero point
+                                            dzxmarks.append(int(ggchild.text))
+                                        else:
+                                            fx.printmsg('INFO: skipped point %s because <= 0' % int(ggchild.text))
             assert len(dzxmarks) > 1
             fx.printmsg('INFO: DZX type is atypical ("File")')
             fx.printmsg('DZX read successful. marks: %s' % len(dzxmarks))

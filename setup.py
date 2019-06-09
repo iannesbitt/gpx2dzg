@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gpx2dzg",
-    version="0.0.2",
+    version="0.0.3",
     author="Ian Nesbitt",
     author_email="ian.nesbitt@gmail.com",
     license='GPLv3',
