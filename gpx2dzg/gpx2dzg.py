@@ -84,7 +84,7 @@ def main():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                                   'wpr:d:g:', ['write', 'plot', 'drop=' 'dzx=', 'gpx='])
+                                   'hwpr:d:g:', ['help', 'write', 'plot', 'drop=' 'dzx=', 'gpx='])
     except getopt.GetoptError as e:
         fx.printmsg('ERROR: invalid argument(s) supplied')
         fx.printmsg('error text: %s' % e)
