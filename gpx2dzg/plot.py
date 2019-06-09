@@ -50,18 +50,19 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
         Creates a matplotlib figure with two axes showing number lines with mark locaitons plotted on each.
     """
     n = 1
-    name = [gpxname, dzxname]
-    label = ['distance (m)', 'scan number', 'time (sec)']
-    title = ['Sanity check plot: GPX and DZT marks', '']
+    name = [gpxname, gpxname, dzxname]
+    label = ['distance (m)', 'time (s)',  'scan number', 'time (s)']
+    units = ['m/mark', 's/mark', 'scans/mark', 'm/s']
+    title = ['Sanity check plot: GPX and DZT marks', '', '']
     dist, spd, tm = fx.distance_speed_time(gpx)
-    fig = plt.figure(figsize=(10, 3.75))
+    fig = plt.figure(figsize=(10, 5))
     fig.set_facecolor('white')
-    for data in [dist, dzx]:
-        ax = plt.subplot(3, 1, n)
+    for data in [dist, tm, dzx]:
+        ax = plt.subplot(4, 1, n)
         setup(ax, xmax=data[-1])
         ax.xaxis.set_major_locator(ticker.LinearLocator(3))
         ax.xaxis.set_minor_locator(ticker.LinearLocator(31))
-        ax.text(0.0, 0.4, "%s marks - count: %s" % (name[n-1], len(data)),
+        ax.text(0.0, 0.4, "%s marks - count: %s, mean: %.2f %s" % (name[n-1], len(data), data[-1]/len(data), units[n-1]),
                 fontsize=10, transform=ax.transAxes)
         plt.xlabel(label[n-1])
         plt.title(title[n-1])
@@ -69,8 +70,8 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
             ax.scatter(x,0.1)
         n += 1
 
-    # this is messy
-    ax = plt.subplot(3, 1, 3)
+    # this is messy but effective
+    ax = plt.subplot(4, 1, 4)
     ax.xaxis.set_ticks_position('bottom')
     ax.tick_params(which='major', width=1.00)
     ax.tick_params(which='major', length=5)

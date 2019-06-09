@@ -48,7 +48,14 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground, in order to visually check which points may have been missed or created erroneously in the field.
 
-This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
+This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below. This plot contains four axes:
+
+  1. GPX marks plotted along a numberline depicting **marks plotted by distance in meters along survey line**.
+  2. GPX marks plotted along a numberline depicting **marks plotted by seconds elapsed along line**.
+  3. DZX or DZT marks plotted along a numberline depicting **marks plotted by scan number**.
+  4. Speed (meters per second) between marks in GPX file, plotted as a function of seconds elapsed.
+
+If you record files by time (i.e. a set number of scans per second), it will be helpful to compare plots 2 and 3. The better the mark points line up in plots 2 and 3, the better off you will be. If you record files by using a survey wheel or other Distance Measurement Instrument (DMI), you should compare plots 1 and 3.
 
 ![Sanity check plot with differing mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_1a.png)
 
