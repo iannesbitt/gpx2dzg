@@ -23,6 +23,7 @@ required flags:
 
 options:
    OPTION    |       ARGUMENT       |       FUNCTIONALITY
--w, --write  |  n/a                 | if set, write a DZG file in the same directory as the DZX/DZT.
--p, --plot   |  n/a                 | if set, show a troubleshooting plot comparing distance per GPX mark versus scan number per DZX mark.
+-r, --drop   | int or list of ints  | drop the indices specified from the list of DZX/DZT marks (can be negative, ex: 2,3,-2)
+-p, --plot   |  n/a                 | if set, show a troubleshooting plot comparing distance per GPX mark versus scan number per DZX mark
+-w, --write  |  n/a                 | if set, write a DZG file in the same directory as the DZX/DZT
 ''' % (__version__, u'\U0001F12F', author, year, affil)

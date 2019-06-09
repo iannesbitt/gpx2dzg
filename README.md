@@ -66,6 +66,14 @@ Note that the second to last point is removed in this second example.
 
 ![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_1b.png)
 
+### write results to a `.DZG` file
+
+Add `write=True` to the function call. The program will not overwrite if there's a DZG already named the same as the DZT or DZX, instead it will name it something like `dzt-gpx2dzg.DZG`.
+
+```python
+>>> g2d.convert(dzx='/path/to/dzt.DZX', gpx='/path/to/gpx.gpx', drops=[-2], write=True)
+```
+
 ### forcing a sanity check plot
 
 To force the sanity check plot even if mark numbers are equal, simply add `plot=True`.
@@ -104,7 +112,7 @@ gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2
 
 ### write results to a `.DZG` file
 
-Simply add the `-w` flag. The program will not overwrite if there's a DZG already named the same as the DZT or DZX, instead it will name it something like `dzt-gpx2dzg.DZG
+Simply add the `-w` flag. The program will not overwrite if there's a DZG already named the same as the DZT or DZX, instead it will name it something like `dzt-gpx2dzg.DZG`.
 
 ```bash
 gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2 -w
