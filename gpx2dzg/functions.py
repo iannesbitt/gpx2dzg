@@ -244,12 +244,17 @@ def drop(marks=[], drops=[]):
         A list of mark values sans the ones dropped.
     """
     i = 0
-    for index in drops:
-        if (index < 0) and (len(marks) > abs(index)):
-            drops[i] = len(marks) - abs(index)
+    for index in drops: # a tricky bit of code to make sure the index is inbounds
+        if (index > 0) and (index < len(marks)-1): # first we check to see if it's positive and in range
+            pass
+        elif (len(marks) - abs(index) > 0) and (len(marks) - abs(index) < len(marks)-1): # then if it's negative, we check that the list length minus absolute value is in range
+            drops[i] = len(marks) - abs(index) # if so, we convert to positive (required for sort, see below)
+        else:
+            printmsg('WARNING: cannot drop the start point (0 or %s) or before, or the end point (%s or -1) or after. (ignoring [%s])' % (-len(marks), len(marks)-1, index))
+            del drops[i] # if not, we delete it from the drops list
         i += 1
 
-    drops.sort(reverse=True)
+    drops.sort(reverse=True) # this is necessary to make sure we delete the right things (indices higher than deleted value change, so we go high to low to avoid problems)
 
     dropped = [] # keeping track of drops
     for index in drops:
