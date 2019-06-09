@@ -54,7 +54,7 @@ This will happen automatically if GPX and DZX mark numbers are not equal. An exa
 
 ### DZX/DZT point removal
 
-You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `drops=[3,-2]` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `drops=[0]` or `drops=[-1]` **since these are required to properly normalize the full extents of your DZT files**.
+You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `drops=[3,-2]` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `drops=[0]` or `drops=[-1]`) **since these are required to properly normalize the full extents of your DZT files**.
 
 In this case, we only need to drop the second-to-last point in order to get matching DZX and GPX mark counts.
 
@@ -94,7 +94,7 @@ gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -p
 
 ### DZX/DZT point removal
 
-You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Remember, the list index starts at 0, so `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `-r 3,-2` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `-r 0` or `-r -1` **since these are required to properly normalize your DZT files**.
+You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Remember, the list index starts at 0, so `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `-r 3,-2` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `-r 0` or `-r -1`) **since these are required to properly normalize your DZT files**.
 
 Notice in this example that the value of `-d` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
 
