@@ -62,7 +62,7 @@ To force the sanity check plot, simply add `plot=True`.
 
 ### DZX/DZT point removal
 
-You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up.
+You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `drops[3,-2]` will remove both the fourth point in the list and the second to last point in the list. **Specifying** `drops=[-1]` **is not advisable since the number at the list end is the last scan number**.
 
 Notice in this example that the value of `dzx=` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
 
@@ -86,7 +86,9 @@ gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -p
 
 ### DZX/DZT point removal
 
-You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Notice in this example that the value of `-d` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
+You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Remember, the list index starts at 0, so `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `-r 3,-2` will remove both the fourth point in the list and the second to last point in the list. **Specifying** `-r -1` **is not advisable since the number at the list end is the last scan number**.
+
+Notice in this example that the value of `-d` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
 
 ```bash
 gpx2dzg -d /path/to/dzt.DZT -g /path/to/gpx.gpx -p -r 4,5,-2
