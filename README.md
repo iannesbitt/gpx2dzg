@@ -37,6 +37,8 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 ## in python
 
+**Note that although many of these examples use SIR-4000 DZX files, this program also works with DZTs created with the SIR-3000, which stores marks in the second row of the radar profile.**
+
 ```python
 >>> import gpx2dzg.gpx2dzg as g2d
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', write=True)
@@ -48,9 +50,25 @@ This software contains the ability to plot GPX and DZX marks next to each other,
 
 This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below:
 
-![Sanity check plot with differing mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_1.png)
+![Sanity check plot with differing mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_1a.png)
 
-To force the sanity check plot, simply add `plot=True`.
+### DZX/DZT point removal
+
+You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `drops=[3,-2]` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `drops=[0]` or `drops=[-1]` **since these are required to properly normalize the full extents of your DZT files**.
+
+In this case, we only need to drop the second-to-last point in order to get matching DZX and GPX mark counts.
+
+```python
+>>> g2d.convert(dzx='/path/to/dzt.DZX', gpx='/path/to/gpx.gpx', plot=True, drops=[-2])
+```
+
+Note that the second to last point is removed in this second example.
+
+![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_1b.png)
+
+### forcing a sanity check plot
+
+To force the sanity check plot even if mark numbers are equal, simply add `plot=True`.
 
 ```python
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', plot=True)
@@ -59,16 +77,6 @@ To force the sanity check plot, simply add `plot=True`.
 ![Sanity check plot with identical mark counts](https://github.com/iannesbitt/gpx2dzg/raw/master/img/Figure_2.png)
 
 *This might not seem like a "sane" way to do a sanity check, but if you have a better idea I would love to hear from you.*
-
-### DZX/DZT point removal
-
-You can remove mark points from the list of DZX or DZT marks by specifying `drops=[4,5,-2]`. It may be beneficial to do this and check the plot a couple of times until the GPS and SIR marks match up. Remember, the list index starts at 0, so `drops=[3]` or `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `drops=[3,-2]` will remove both the fourth point in the list and the second to last point in the list. **Specifying** `drops=[-1]` **is not advisable since the number at the list end is the last scan number**.
-
-Notice in this example that the value of `dzx=` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
-
-```python
->>> g2d.convert(dzx='/path/to/dzt.DZT', gpx='/path/to/gpx.gpx', plot=True, drops=[4,5,-2])
-```
 
 ## on a `bash` or Anaconda Prompt command line
 
@@ -86,7 +94,7 @@ gpx2dzg -d /path/to/dzx.DZX -g /path/to/gpx.gpx -p
 
 ### DZX/DZT point removal
 
-You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Remember, the list index starts at 0, so `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `-r 3,-2` will remove both the fourth point in the list and the second to last point in the list. **Specifying** `-r -1` **is not advisable since the number at the list end is the last scan number**.
+You can remove mark points from the list of DZX or DZT marks by adding the `-r` flag with a list of integers. Again, it may be beneficial to do this a couple of times to check that the GPS/SIR mark points in the plot match up the way you want them to. Remember, the list index starts at 0, so `-r 3` will drop the 4th mark. Adding a negative number will remove from the end of the list, so `-r 3,-2` will remove both the fourth point in the list and the second to last point in the list. **This software will not let you drop the first or last point** (i.e. `-r 0` or `-r -1` **since these are required to properly normalize your DZT files**.
 
 Notice in this example that the value of `-d` can point to either a SIR-3000 `DZT` file or a SIR-4000 `DZX` file.
 
