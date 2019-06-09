@@ -5,7 +5,7 @@
 
 This software takes GPS waypoint information stored in [GPX](https://en.wikipedia.org/wiki/GPS_Exchange_Format) files, tries to align waypoints with user marks in GSSI's proprietary DZX file format, and outputs the results to DZG (an ASCII file containing a mix of [RMC](http://aprs.gids.nl/nmea/#rmc) and/or [GGA](http://aprs.gids.nl/nmea/#gga) NMEA strings and "NMEA-like" GSSI proprietary strings). The purpose of this translation is to artifically create GPS-aware ground-penetrating radar (GPR) projects.
 
-At the moment (June 2019) this software has been tested with SIR-3000 and SIR-4000 GSSI control units. The 3000 and 4000 control units record user marks in very different ways: the 3000 records them directly to the second row of the radar array, while the 4000 creates a proprietary XML file called `DZX` and records them as XML objects in that file. This software can handle both. If you used a 3000 during the survey, you can read the marks by pointing the software directly at your DZT file. If you used a 4000, you should point the software at the DZX file associated with the DZT. See [usage](#usage) for an explanation of how to do this in both [Python](#in-python) and [on the command line](#on-a-bash-or-anaconda-prompt-command-line).
+At the moment (June 2019) this software has been tested with files created with SIR-3000 and SIR-4000 GSSI control units. The 3000 and 4000 control units record user marks in very different ways: the 3000 records them directly to the second row of the radar array, while the 4000 creates a proprietary XML file called `DZX` and records them as XML objects in that file. This software can handle both. If you used a 3000 during the survey, you can read the marks by pointing the software directly at your DZT file. If you used a 4000, you should point the software at the DZX file associated with the DZT. See [usage](#usage) for an explanation of how to do this in both [Python](#in-python) and [on the command line](#on-a-bash-or-anaconda-prompt-command-line).
 
 
 ### Note:
@@ -37,18 +37,22 @@ If that doesn't work, you may need to unzip differently. Try making a folder cal
 
 ## in python
 
-**Note that although many of these examples use SIR-4000 DZX files, this program also works with DZTs created with the SIR-3000, which stores marks in the second row of the radar profile.**
+*Note that although many of these examples use SIR-4000 DZX files, this program also works with DZTs created with the SIR-3000, which stores marks in the second row of the radar profile.*
+
+The following command will compare the DZX and GPX files, and if the mark numbers are the same, it will write a DZG file (`write=True`).
 
 ```python
 >>> import gpx2dzg.gpx2dzg as g2d
 >>> g2d.convert(dzx='/path/to/dzx.DZX', gpx='/path/to/gpx.gpx', write=True)
 ```
 
+However, `write=True` may not be the desired behavior if you would like to compare the mark points first. In that case, you'll want to specify `plot=True` instead to force a sanity check plot. *Note: this will happen automatically if GPX and DZX mark numbers are not equal, because the software will not write a `DZG` in that case.*
+
 ### sanity check plotting
 
-This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground, in order to visually check which points may have been missed or created erroneously in the field.
+This software contains the ability to plot GPX and DZX marks next to each other, along with speed over ground, in order to visually check which points may have been missed or created erroneously in the field. As stated above, this will happen automatically if the mark numbers differ between the GPX and whichever GSSI file you're working with.
 
-This will happen automatically if GPX and DZX mark numbers are not equal. An example is shown below. This plot contains four axes:
+An example is shown below. This plot contains four axes:
 
   1. GPX marks plotted along a numberline depicting **marks plotted by distance in meters along survey line**.
   2. GPX marks plotted along a numberline depicting **marks plotted by seconds elapsed along line**.
