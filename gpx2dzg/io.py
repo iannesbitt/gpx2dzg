@@ -6,6 +6,8 @@ import xml.etree.ElementTree as et
 from geopy.distance import geodesic
 import gpx2dzg.functions as fx
 import readgssi.dzt as readdzt
+import pygeodesy
+import pkg_resources as pr
 
 def readdzx(dzx=''):
     """Attempts to read a DZX file from one of two known formats.
@@ -146,6 +148,9 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
     gpxmarks : gpxpy.GPX
         A `gpxpy.GPX` instance containing waypoint information of each mark.
     """
+    # create bivariate spline interpolation of 15-arcmin egm96. no need for high-precision (yet?)
+    geoid = pygeodesy.geoids.GeoidPGM(pr.resource_filename('gpx2dzg', 'geoid/egm96-15.pgm'))
+
     g = gpxmarks.waypoints
     try:
         with open(dzg, 'w') as f:
@@ -157,7 +162,8 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                 a = 'A'
                 lat = '%02d%09.6f' % fx.dd2ddm(abs(g[m].latitude))
                 lon = '%03d%09.6f' % fx.dd2ddm(abs(g[m].longitude))
-                elev = g[m].elevation
+                elev = '%.2f' % g[m].elevation
+                gh = '%.1f' % geoid.height(lats=g[m].latitude, lons=g[m].longitude)
                 if g[m].latitude >= 0:
                     latd = 'N'
                 else:
@@ -184,7 +190,9 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                     vard = 'W'
                 rmc = pynmea2.RMC(talker='GP', sentence_type='RMC',
                                   data=(t, a, lat, latd, lon, lond, kt, crs, d, var, vard))
-                f.write(str(rmc) + '\n\n\n')
+                gga = pynmea2.GGA(talker='GP', sentence_type='GGA',
+                                  data=(t, lat, latd, lon, lond, '7', '00', '1.0', elev, gh, '', ''))
+                f.write(str(rmc) + '\n' + str(gga) + '\n\n\n')
 
                 m += 1
 

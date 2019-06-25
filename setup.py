@@ -15,7 +15,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/iannesbitt/gpx2dzg",
     packages=setuptools.find_packages(),
-    install_requires=['gpxpy', 'geomag', 'pynmea2', 'readgssi'],
+    install_requires=['gpxpy', 'geomag', 'pynmea2', 'pygeodesy', 'readgssi'],
+    include_package_data=True,
     entry_points='''
         [console_scripts]
         gpx2dzg=gpx2dzg.gpx2dzg:main
