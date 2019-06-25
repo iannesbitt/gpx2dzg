@@ -155,8 +155,9 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
 
                 t = '%02d%02d%02d' % (g[m].time.hour, g[m].time.minute, g[m].time.second)
                 a = 'A'
-                lat = '%02d%02d.%s' % fx.dd2dms(abs(g[m].latitude))
-                lon = '%03d%02d.%s' % fx.dd2dms(abs(g[m].longitude))
+                lat = '%02d%09.6f' % fx.dd2ddm(abs(g[m].latitude))
+                lon = '%03d%09.6f' % fx.dd2ddm(abs(g[m].longitude))
+                elev = g[m].elevation
                 if g[m].latitude >= 0:
                     latd = 'N'
                 else:

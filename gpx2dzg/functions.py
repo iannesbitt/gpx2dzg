@@ -67,15 +67,15 @@ def writeerror(e=''):
     printmsg('ERROR TEXT: %s' % e)
 
 
-def dd2dms(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com/a/10286690/4648080)
+def dd2ddm(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com/a/10286690/4648080)
     """
-    Converts decimal degrees to a tuple containing degrees, minutes, and seconds (DMS). For the purpose of
-    this software, the decimal in seconds is removed in order to create a NMEA-friendly string.
+    Converts decimal degrees to a tuple containing degrees and decimal minutes (DDM). DDM is not used often
+    but NMEA strings need it (see https://www.gpsinformation.org/dale/nmea.htm#position).
 
     Parameters
     ----------
     dd : float
-        The decimal degree value to convert to DMS.
+        The decimal degree value to convert to DDM.
 
     Credit to StackOverflow user Erik L (https://stackoverflow.com/a/10286690/4648080) for this function.
     """
@@ -84,7 +84,8 @@ def dd2dms(dd): # credit to stackoverflow user Erik L (https://stackoverflow.com
     minutes,seconds = divmod(dd*3600,60)
     degrees,minutes = divmod(minutes,60)
     degrees = degrees if is_positive else -degrees
-    return (degrees,minutes,str(seconds).replace('.',''))
+    minutes = minutes + seconds/60. # convert to decimal minutes
+    return (degrees,minutes)
 
 
 def course(pointA, pointB): # credit to github user jeromer (https://gist.github.com/jeromer/2005586)
