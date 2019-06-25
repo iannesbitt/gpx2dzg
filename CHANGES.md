@@ -5,6 +5,8 @@
 - changed name of decimal degree conversion function from `dd2dms` to `dd2ddm` to reflect the change in purpose to address [#1](https://github.com/iannesbitt/gpx2dzg/issues/1)
 - added GGA sentence output to accompany RMC, with a calculated egm96 geoid height!
 - added [MANIFEST](https://github.com/iannesbitt/gpx2dzg/blob/master/MANIFEST.in), which includes a small and simple 15-arcminute egm96 geoid model
+- added mark numbering for ease of mark removal using `-r`, which stays consistent even if marks are removed
+- updated README plots to reflect numbering change
 
 ## changes since 0.0.2
 - added a subplot depicting GPX marks vs time

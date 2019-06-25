@@ -47,8 +47,10 @@ def convert(dzx='', gpx='', write=False, plot=False, drops=[]):
     gpxmarks = io.readgpx(gpx=gpx)
     fx.printmsg('found %s gpx marks' % len(gpxmarks.waypoints))
 
+    origdzxnum = list(range(0,len(dzxmarks)))
     if len(drops) > 0:
         fx.drop(marks=dzxmarks, drops=drops)
+        fx.drop(marks=origdzxnum, drops=drops)
 
     if len(gpxmarks.waypoints) == len(dzxmarks):
         fx.printmsg('mark counts match!')
@@ -69,7 +71,7 @@ def convert(dzx='', gpx='', write=False, plot=False, drops=[]):
         success = False
 
     if plot:
-        px.sanityplot(dzx=dzxmarks, dzxname=dzx, gpx=gpxmarks, gpxname=gpx)
+        px.sanityplot(dzx=dzxmarks, dzxnum=origdzxnum, dzxname=dzx, gpx=gpxmarks, gpxname=gpx)
 
     return success
 

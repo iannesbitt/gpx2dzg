@@ -30,7 +30,7 @@ def setup(ax, xmax=5):
     ax.patch.set_alpha(0.0)
 
 
-def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
+def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxnum=None, dzxname='DZX'):
     """Creates two number line plots for comparison of mark location and scan number.
 
     Parameters
@@ -41,13 +41,15 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
         The name of the GPX file being read. This will be used as axis label text.
     dzx : list
         The list of DZX marks to plot. Each item in the list is a scan number at which a mark was recorded.
+    origdzxnum : list
+        A list of the original DZX marks to use as labels, intended to make removing with `-r <num>` easier.
     gpxname : str
         The name of the DZX file being read. This will be used as axis label text.
 
     Returns
     -------
     plot instance
-        Creates a matplotlib figure with two axes showing number lines with mark locaitons plotted on each.
+        Creates a matplotlib figure with two axes showing number lines with mark locations plotted on each.
     """
     n = 1
     name = [gpxname, gpxname, dzxname]
@@ -62,16 +64,22 @@ def sanityplot(gpx=None, gpxname='GPX', dzx=None, dzxname='DZX'):
         setup(ax, xmax=data[-1])
         ax.xaxis.set_major_locator(ticker.LinearLocator(3))
         ax.xaxis.set_minor_locator(ticker.LinearLocator(31))
-        ax.text(0.0, 0.4, "%s marks - count: %s, mean: %.2f %s" % (name[n-1], len(data), data[-1]/len(data), units[n-1]),
+        ax.text(0.0, 0.6, "%s marks - count: %s, mean: %.2f %s" % (name[n-1], len(data), data[-1]/len(data), units[n-1]),
                 fontsize=10, transform=ax.transAxes)
         plt.xlabel(label[n-1])
         plt.title(title[n-1])
+        i = 0
         for x in data:
             ax.scatter(x,0.1)
+            if n < 3:
+                ax.annotate(str(i), xy=(x,0.1), xytext=(-2*(len(str(i))), 4), textcoords='offset points', fontsize=6)
+            else:
+                ax.annotate(str(dzxnum[i]), xy=(x,0.1), xytext=(-2*(len(str(i))), 4), textcoords='offset points', fontsize=6)
+            i += 1
         n += 1
 
     # this is messy but effective
-    ax = plt.subplot(4, 1, 4)
+    ax = plt.subplot(4, 1, n)
     ax.xaxis.set_ticks_position('bottom')
     ax.tick_params(which='major', width=1.00)
     ax.tick_params(which='major', length=5)
