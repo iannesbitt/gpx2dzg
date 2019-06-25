@@ -192,7 +192,7 @@ def write(dzg='', dzxmarks=None, gpxmarks=None):
                                   data=(t, a, lat, latd, lon, lond, kt, crs, d, var, vard))
                 gga = pynmea2.GGA(talker='GP', sentence_type='GGA',
                                   data=(t, lat, latd, lon, lond, '7', '00', '1.0', elev, gh, '', ''))
-                f.write(str(rmc) + '\n' + str(gga) + '\n\n\n')
+                f.write(str(gga) + '\n' + str(rmc) + '\n\n\n')
 
                 m += 1
 
