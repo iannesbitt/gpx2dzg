@@ -2,7 +2,8 @@
 
 ## changes since 0.0.4
 - added figure at top of readme
-- added "intended audience" classifier in `setup.py`
+- added "intended audience" classifier in `setup.py` and changed Development Status to "Production/Stable"
+- added [Zenodo](https://zenodo.org/record/3260948) badge (doi:[10.5281/zenodo.3260948](https://dx.doi.org/10.5281/zenodo.3260948))
 
 ## changes since 0.0.3
 - fixed major bug ([#1](https://github.com/iannesbitt/gpx2dzg/issues/1)) which caused locations to be written incorrectly in NMEA sentences. versions 0.0.3 and down suffer from this bug and should not be used.
